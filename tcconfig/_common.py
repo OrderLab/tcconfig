@@ -87,8 +87,15 @@ def sanitize_network(network, ip_version):
     # validate network str ---
 
     if ip_version == 4:
-        return ipaddress.IPv4Network(six.text_type(network)).compressed
-
+        try:
+            return ipaddress.IPv4Network(six.text_type(network)).compressed
+        except ValueError as e:
+            import socket
+            try:
+                ip = socket.gethostbyname(network)
+                return ipaddress.IPv4Network(six.text_type(ip)).compressed
+            except:
+                raise e
     if ip_version == 6:
         return ipaddress.IPv6Network(six.text_type(network)).compressed
 
