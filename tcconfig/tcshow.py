@@ -27,6 +27,7 @@ from ._common import (
 )
 from ._const import (
     VERSION,
+    TC_CMD,
     Tc,
     TcCoomandOutput,
 )
@@ -92,7 +93,7 @@ class TcShapingRuleParser(object):
 
     def __get_ifb_from_device(self):
         filter_runner = SubprocessRunner(
-            "tc filter show dev {:s} root".format(self.device), dry_run=False)
+            "{:s} filter show dev {:s} root".format(TC_CMD, self.device), dry_run=False)
         filter_runner.run()
 
         return TcFilterParser(self.__ip_version).parse_incoming_device(
@@ -205,21 +206,21 @@ class TcShapingRuleParser(object):
         except ValueError:
             return []
 
-        logger.debug("tc qdisc parse result: {}".format(param_list))
+        logger.debug("{:s} qdisc parse result: {}".format(TC_CMD, param_list))
 
         return param_list
 
     def __parse_tc_filter(self, device):
         param_list = list(TcFilterParser(self.__ip_version).parse_filter(
             run_tc_show(Tc.Subcommand.FILTER, device)))
-        logger.debug("tc filter parse result: {}".format(param_list))
+        logger.debug("{:s} filter parse result: {}".format(TC_CMD, param_list))
 
         return param_list
 
     def __parse_tc_class(self, device):
         param_list = list(TcClassParser().parse(
             run_tc_show(Tc.Subcommand.CLASS, device)))
-        logger.debug("tc class parse result: {}".format(param_list))
+        logger.debug("{:s} class parse result: {}".format(TC_CMD, param_list))
 
         return param_list
 

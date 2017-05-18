@@ -25,6 +25,7 @@ from ._common import (
 )
 from ._const import (
     KILO_SIZE,
+    TC_CMD,
     TcCoomandOutput,
     LIST_MANGLE_TABLE_COMMAND,
 )
@@ -253,7 +254,7 @@ class TrafficControl(object):
             if command == LIST_MANGLE_TABLE_COMMAND:
                 return False
 
-            if re.search("^tc .* show dev", command):
+            if re.search("^{:s} .* show dev".format(TC_CMD), command):
                 return False
 
             return True
@@ -269,14 +270,14 @@ class TrafficControl(object):
 
         with logging_context("delete qdisc"):
             returncode = run_command_helper(
-                "tc qdisc del dev {:s} root".format(self.__device),
+                "{:s} qdisc del dev {:s} root".format(TC_CMD, self.__device),
                 re.compile("RTNETLINK answers: No such file or directory"),
                 "failed to delete qdisc: no qdisc for outgoing packets")
             result_list.append(returncode == 0)
 
         with logging_context("delete ingress qdisc"):
             returncode = run_command_helper(
-                "tc qdisc del dev {:s} ingress".format(self.__device),
+                "{:s} qdisc del dev {:s} ingress".format(TC_CMD, self.__device),
                 re.compile("|".join([
                     "RTNETLINK answers: Invalid argument",
                     "RTNETLINK answers: No such file or directory",
@@ -398,13 +399,14 @@ class TrafficControl(object):
             "ip link set dev {:s} up".format(self.ifb_device)).run()
 
         return_code |= run_command_helper(
-            "tc qdisc add dev {:s} ingress".format(self.__device),
+            "{:s} qdisc add dev {:s} ingress".format(TC_CMD, self.__device),
             self.REGEXP_FILE_EXISTS,
             self.EXISTS_MSG_TEMPLATE.format(
                 "failed to add qdisc: ingress qdisc already exists."))
 
         return_code |= spr.SubprocessRunner(" ".join([
-            "tc filter add",
+            TC_CMD,
+            "filter add",
             "dev {:s}".format(self.__device),
             "parent ffff: protocol {:s} u32 match u32 0 0".format(
                 self.protocol),
@@ -419,7 +421,7 @@ class TrafficControl(object):
         verify_network_interface(self.ifb_device)
 
         command_list = [
-            "tc qdisc del dev {:s} root".format(self.ifb_device),
+            "{:s} qdisc del dev {:s} root".format(TC_CMD, self.ifb_device),
             "ip link set dev {:s} down".format(self.ifb_device),
             "ip link delete {:s} type ifb".format(self.ifb_device),
         ]

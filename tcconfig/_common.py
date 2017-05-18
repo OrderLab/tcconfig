@@ -15,7 +15,7 @@ import typepy
 
 import subprocrunner as spr
 
-from ._const import Network
+from ._const import Network, TC_CMD
 from ._error import NetworkInterfaceNotFoundError
 from ._logger import logger
 
@@ -131,7 +131,7 @@ def run_command_helper(command, error_regexp, message, exception=None):
 
 def run_tc_show(subcommand, device):
     runner = spr.SubprocessRunner(
-        "tc {:s} show dev {:s}".format(subcommand, device))
+        "{:s} {:s} show dev {:s}".format(TC_CMD, subcommand, device))
     runner.run()
 
     return runner.stdout

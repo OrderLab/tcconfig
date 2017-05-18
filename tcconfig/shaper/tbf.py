@@ -15,6 +15,11 @@ from .._common import (
     get_anywhere_network,
     run_command_helper,
 )
+
+from .._const import(
+    TC_CMD,
+)
+
 from .._error import EmptyParameterError
 from .._traffic_direction import TrafficDirection
 from ._interface import AbstractShaper
@@ -58,7 +63,8 @@ class TbfShaper(AbstractShaper):
 
         return run_command_helper(
             " ".join([
-                "tc qdisc add", self.dev, "root",
+                TC_CMD,
+                "qdisc add", self.dev, "root",
                 "handle {:s}".format(handle), "prio",
             ]),
             self._tc_obj.REGEXP_FILE_EXISTS,
@@ -80,7 +86,8 @@ class TbfShaper(AbstractShaper):
         handle = "{:d}:".format(20)
 
         command = " ".join([
-            "tc qdisc add",
+            TC_CMD,
+            "qdisc add",
             self.dev,
             "parent {:s}".format(parent),
             "handle {:s}".format(handle),
@@ -131,7 +138,8 @@ class TbfShaper(AbstractShaper):
             flowid = "{:s}:2".format(self._tc_obj.qdisc_major_id_str)
 
         return SubprocessRunner(" ".join([
-            "tc filter add",
+            TC_CMD,
+            "filter add",
             self.dev,
             "protocol {:s}".format(self._tc_obj.protocol),
             "parent {:s}:".format(self._tc_obj.qdisc_major_id_str),

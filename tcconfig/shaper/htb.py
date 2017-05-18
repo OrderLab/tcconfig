@@ -19,6 +19,7 @@ from .._common import (
 )
 from .._const import (
     KILO_SIZE,
+    TC_CMD,
     Tc,
     TcCoomandOutput,
 )
@@ -92,7 +93,8 @@ class HtbShaper(AbstractShaper):
 
         run_command_helper(
             " ".join([
-                "tc qdisc add",
+                TC_CMD,
+                "qdisc add",
                 self.dev,
                 "root",
                 "handle {:s}".format(handle),
@@ -119,7 +121,8 @@ class HtbShaper(AbstractShaper):
             kbits = no_limit_kbits
 
         command_item_list = [
-            "tc class add",
+            TC_CMD,
+            "class add",
             self.dev,
             "parent {:s}".format(parent),
             "classid {:s}".format(classid),
@@ -240,7 +243,8 @@ class HtbShaper(AbstractShaper):
 
         return run_command_helper(
             " ".join([
-                "tc class add",
+                TC_CMD,
+                "class add",
                 self.dev,
                 "parent {:s}".format(parent),
                 "classid {:s}".format(classid),
