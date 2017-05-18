@@ -11,7 +11,7 @@ from __future__ import unicode_literals
 VERSION = "0.10.1"
 
 KILO_SIZE = 1000
-LIST_MANGLE_TABLE_COMMAND = "iptables -t mangle --line-numbers -L"
+LIST_MANGLE_TABLE_COMMAND = "sudo iptables -t mangle --line-numbers -L"
 TC_CMD = 'sudo tc'
 
 class Network(object):

@@ -387,16 +387,16 @@ class TrafficControl(object):
 
         return_code = 0
 
-        return_code |= spr.SubprocessRunner("modprobe ifb").run()
+        return_code |= spr.SubprocessRunner("sudo modprobe ifb").run()
 
         return_code |= run_command_helper(
-            "ip link add {:s} type ifb".format(self.ifb_device),
+            "sudo ip link add {:s} type ifb".format(self.ifb_device),
             self.REGEXP_FILE_EXISTS,
             self.EXISTS_MSG_TEMPLATE.format(
                 "failed to add ip link: ip link already exists."))
 
         return_code |= spr.SubprocessRunner(
-            "ip link set dev {:s} up".format(self.ifb_device)).run()
+            "sudo ip link set dev {:s} up".format(self.ifb_device)).run()
 
         return_code |= run_command_helper(
             "{:s} qdisc add dev {:s} ingress".format(TC_CMD, self.__device),
@@ -422,8 +422,8 @@ class TrafficControl(object):
 
         command_list = [
             "{:s} qdisc del dev {:s} root".format(TC_CMD, self.ifb_device),
-            "ip link set dev {:s} down".format(self.ifb_device),
-            "ip link delete {:s} type ifb".format(self.ifb_device),
+            "sudo ip link set dev {:s} down".format(self.ifb_device),
+            "sudo ip link delete {:s} type ifb".format(self.ifb_device),
         ]
 
         if all([
