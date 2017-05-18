@@ -58,6 +58,9 @@ def parse_option():
         "--device", action="append", required=True,
         help="network device name (e.g. eth0)")
     group.add_argument(
+        "--stats", action="store_true", 
+        help="show statistics of existing traffic control")
+    group.add_argument(
         "--ipv6", dest="ip_version", action="store_const",
         const=6, default=4,
         help="""
@@ -246,6 +249,13 @@ def main():
 
         tc_param.update(TcShapingRuleParser(
             device, options.ip_version, logger).get_tc_parameter())
+
+    if options.stats:
+        stats_runner = SubprocessRunner(
+            "{:s} -s -d qdisc show dev {:s}".format(TC_CMD, options.device[0]), dry_run=False)
+        stats_runner.run()
+        print(stats_runner.stdout)
+        return 0
 
     command_history = "\n".join(SubprocessRunner.get_history())
 
