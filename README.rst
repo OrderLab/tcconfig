@@ -153,7 +153,7 @@ installing into system path.
 To install, just type ``./init.sh``, and then use the wrappers ``./tcset``, ``./tcshow``, ``./tcdel``.
 
 Example
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+-------
 
 .. code:: console
    # ./tcset --delay 300 --loss 35 --network pano2 --tc-command
