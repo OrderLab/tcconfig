@@ -155,14 +155,18 @@ To install, just type ``./init.sh``, and then use the wrappers ``./tcset``, ``./
 Example
 -------
 
+To display the underlying tc commands for adding a delay of 300ms and 
+packet loss rate of 35% to a host named pano2.
+
+
 .. code:: console
+
    # ./tcset --delay 300 --loss 35 --network pano2 --tc-command
 
-will display the underlying tc commands for adding a delay of 300ms and 
-packet loss rate of 35% to a host named pano2. To actually apply these
-commands remove the ``--tc-command``:
+To actually apply these commands remove the ``--tc-command``:
 
 .. code:: console
+
    # ./tcset --delay 300 --loss 35 --network pano2
    # ./tcshow
    # ./tcdel
