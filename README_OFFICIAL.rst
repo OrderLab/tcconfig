@@ -146,29 +146,73 @@ http://tcconfig.rtfd.io/en/latest/pages/usage/index.html
 Installation
 ============
 
-The official release can be installed from pip package. Please refer to the official `README <README_OFFICIAL.rst>`__ for 
-reference. We've made some modifications to the tool, and it should be invoked from within this repository rather than 
-installing into system path.
+Installing from PyPI
+------------------------------
+``tcconfig`` can be installed from `PyPI <https://pypi.python.org/pypi>`__ via
+`pip <https://pip.pypa.io/en/stable/installing/>`__ (Python package manager) command.
 
-To install, just type ``./init.sh``, and then use the wrappers ``./tcset``, ``./tcshow``, ``./tcdel``.
+.. code:: console
 
-Example
+    sudo pip install tcconfig
+
+
+Installing from binary
+------------------------------
+``tcconfig`` can be installed environments which cannot access to
+`PyPI <https://pypi.python.org/pypi>`__ directly:
+
+1. ``https://github.com/thombashi/tcconfig/releases/download/v0.7.0/tcconfig_wheel.tar.gz``
+2. ``tar xvf tcconfig_wheel.tar.gz``
+3. ``cd tcconfig_wheel/``
+4. ``./install.sh``
+
+
+Dependencies
+============
+
+Linux packages
+--------------
+- iproute2 (mandatory: required for tc command)
+- iptables (optional: required to when you use ``--iptables`` option)
+
+Linux kernel module
+----------------------------
+- sch_netem
+
+Python packages
+---------------
+Dependency python packages are automatically installed during
+``tcconfig`` installation via pip.
+
+- `DataPropery <https://github.com/thombashi/DataProperty>`__
+- `ipaddress <https://pypi.python.org/pypi/ipaddress>`__
+- `logbook <http://logbook.readthedocs.io/en/stable/>`__
+- `pyparsing <https://pyparsing.wikispaces.com/>`__
+- `six <https://pypi.python.org/pypi/six/>`__
+- `subprocrunner <https://github.com/thombashi/subprocrunner>`__
+- `typepy <https://github.com/thombashi/typepy>`__
+- `voluptuous <https://github.com/alecthomas/voluptuous>`__
+
+Optional
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- `netifaces <https://bitbucket.org/al45tair/netifaces>`__
+    - Suppress excessive error messages if this package is installed
 
-.. code:: console
-   # ./tcset --delay 300 --loss 35 --network pano2 --tc-command
-
-will display the underlying tc commands for adding a delay of 300ms and 
-packet loss rate of 35% to a host named pano2. To actually apply these
-commands remove the ``--tc-command``:
-
-.. code:: console
-   # ./tcset --delay 300 --loss 35 --network pano2
-   # ./tcshow
-   # ./tcdel
-   # ./tcset --delay 10000 --network pano2 --src-port 2888 --tc-command
+Test dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+- `allpairspy <https://github.com/thombashi/allpairspy>`__
+- `pingparsing <https://github.com/thombashi/pingparsing>`__
+- `pytest <http://pytest.org/latest/>`__
+- `pytest-runner <https://pypi.python.org/pypi/pytest-runner>`__
+- `tox <https://testrun.org/tox/latest/>`__
 
 Documentation
 =============
 
 http://tcconfig.rtfd.io/
+
+Troubleshooting
+===============
+
+http://tcconfig.readthedocs.io/en/latest/pages/troubleshooting.html
+
