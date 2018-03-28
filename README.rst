@@ -171,6 +171,7 @@ To actually apply these commands remove the ``--tc-command``:
    # ./tcshow
    # ./tcdel
    # ./tcset --delay 10000 --network pano2 --src-port 2888 --tc-command
+   # ./tcset --delay 500 --loss 35 --network order1 --device ens1f1 --direction outgoing
 
 Documentation
 =============
