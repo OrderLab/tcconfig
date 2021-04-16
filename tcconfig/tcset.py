@@ -45,9 +45,9 @@ logbook.StderrHandler(
 def parse_option():
     parser = ArgparseWrapper(VERSION)
 
-    group = parser.parser.add_mutually_exclusive_group()
+    group = parser.parser.add_mutually_exclusive_group(required=True)
     group.add_argument(
-        "--device", required=True,
+        "--device",
         help="network device name (e.g. eth0)")
     group.add_argument(
         "-f", "--config-file",
