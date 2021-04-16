@@ -55,7 +55,7 @@ def parse_option():
 
     group = parser.parser.add_argument_group("Traffic Control")
     group.add_argument(
-        "--device", action="append", default=["eth0"], 
+        "--device", action="append", required=True,
         help="network device name (e.g. eth0)")
     group.add_argument(
         "--stats", action="store_true", 
