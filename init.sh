@@ -1,2 +1,2 @@
 #!/bin/bash
-pip install -r requirements/requirements.txt --user $USER 
+pip3 install -r requirements/requirements.txt --user $USER 
